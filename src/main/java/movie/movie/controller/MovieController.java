@@ -17,19 +17,16 @@ import java.util.Map;
 public class MovieController {
     private final MovieService service;
 
-    // TestGetMovie -> debe devolver JSON directo con "film":"Inception"
     @GetMapping("/movie")
     public Movie getMovie(@RequestParam int id) {
         return service.getById(id);
     }
 
-    // TestListMovies -> debe devolver lista tal cual mock retorna
     @GetMapping("/movies")
     public List<Movie> listMovies(@RequestParam int total, @RequestParam String order) {
         return service.getOrdered(total, order);
     }
 
-    // TestAddMovie -> debe devolver {"message":"La película fue creada con éxito"}
     @PostMapping("/movie")
     public Map<String, String> addMovie(@RequestBody MovieDTO movieDTO) {
 

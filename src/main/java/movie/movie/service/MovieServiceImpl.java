@@ -42,9 +42,7 @@ public class MovieServiceImpl implements MovieService {
     public List<Movie> getOrdered(int total, String order) {
         List<Movie> movies = repository.findAll();
 
-        // Convertir lista a mutable antes de ordenar
-        movies = List.copyOf(movies);       // <- crea copia pero también es inmutable ❌
-        // Lo correcto es usar:
+        movies = List.copyOf(movies);
         movies = new java.util.ArrayList<>(movies);   // <- mutable ✔
 
         if(order.equalsIgnoreCase("asc"))
@@ -75,7 +73,6 @@ public class MovieServiceImpl implements MovieService {
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
 
-            // 1️⃣ Leer encabezado y mapear columnas
             String headerLine = br.readLine();
             if (headerLine == null) throw new Exception("El archivo no contiene encabezados");
 
@@ -86,7 +83,6 @@ public class MovieServiceImpl implements MovieService {
                 columnIndex.put(headers[i].trim().toLowerCase(), i); // lowercase para evitar problemas
             }
 
-            // 2️⃣ Leer datos y asignarlos por nombre
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");

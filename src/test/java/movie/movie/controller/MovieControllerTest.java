@@ -45,11 +45,9 @@ class MovieControllerTest {
     @Test
     void testListMovies() throws Exception {
 
-        // se asigna ID porque tu servicio ordena por ID
         Movie m1 = new Movie(); m1.setId(1); m1.setScore(9);
         Movie m2 = new Movie(); m2.setId(2); m2.setScore(7);
 
-        // Se ordenará asc → 1 luego 2
         when(service.getOrdered(2, "asc")).thenReturn(List.of(m1, m2));
 
         mockMvc.perform(get("/api/movies")
