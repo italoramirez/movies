@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: movies
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/prueba?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+    username: appuser
+    password: movie123
+  
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect

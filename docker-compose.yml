@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: prueba_mysql
+    restart: unless-stopped
+
+    # Carga variables desde archivo .env (BUENA PRÁCTICA)
+    env_file:
+      - .env
+
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: "UTC"
+
+      # Configuración recomendada para evitar problemas con Hibernate/JPA
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_TCP_PORT: 3306
+
+    ports:
+      - "3306:3306"
+
+    # Persistencia de datos
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+
+    # Healthcheck mejorado
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -u${MYSQL_USER} -p${MYSQL_PASSWORD} -h localhost || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+volumes:
+  mysql_data:
